@@ -1,0 +1,32 @@
+/* --- ALWAYS FIRST --- */
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+
+/* --- Tailwind & DaisyUI next --- */
+@import "tailwindcss";
+@plugin "daisyui";
+
+/* --- DaisyUI Theme --- */
+@plugin "daisyui/theme" {
+  name: "light";
+  default: true;
+  --color-primary: #dda23c;
+  --color-secondary: #a35061;
+}
+
+/* --- Global Styles --- */
+* {
+  font-family: "Roboto", sans-serif;
+}
+
+/* --- Buttons Override --- */
+.btn-primary {
+  @apply bg-[#DDA23C] border-none text-black;
+}
+.btn-primary:hover {
+  @apply opacity-90;
+}
+
+/* --- Custom Animations --- */
+.animate-float {
+  animation: float 2s ease-in-out infinite;
+}
