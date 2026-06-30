@@ -78,13 +78,13 @@
 | Serial | Phase ID | Area | Title | Depends On | Status |
 |--------|----------|------|-------|------------|--------|
 | **1** | B1 | Backend | Environment & Dependencies Setup | — | ✅ Done |
-| **2** | B2 | Backend | Database Schema Updates | B1 | |
-| **3** | B3 | Backend | Token Service & Cookie Helpers | B1 | |
-| **4** | B4 | Backend | Auth Module — Register & Login | B2, B3 | |
-| **5** | B5 | Backend | Auth Module — Refresh & Logout | B3, B4 | |
-| **6** | B6 | Backend | Firebase Sync Endpoint | B4, B5 | |
-| **7** | B7 | Backend | Dual-Verify Auth Middleware | B3 | |
-| **8** | B8 | Backend | Secure Existing Routes & Hardening | B7 | |
+| **2** | B2 | Backend | Database Schema Updates | B1 | ✅ Done |
+| **3** | B3 | Backend | Token Service & Cookie Helpers | B1 | ✅ Done |
+| **4** | B4 | Backend | Auth Module — Register & Login | B2, B3 | ✅ Done |
+| **5** | B5 | Backend | Auth Module — Refresh & Logout | B3, B4 | ✅ Done |
+| **6** | B6 | Backend | Firebase Sync Endpoint | B4, B5 | ✅ Done |
+| **7** | B7 | Backend | Dual-Verify Auth Middleware | B3 | ✅ Done |
+| **8** | B8 | Backend | Secure Existing Routes & Hardening | B7 | ✅ Done |
 | **9** | F1 | Frontend | Auth API Layer & Token Manager | B4, B5 | |
 | **10** | F2 | Frontend | AuthProvider Refactor | F1, B6 | |
 | **11** | F3 | Frontend | Axios Interceptor & Silent Refresh | F2, B5 | |
@@ -126,7 +126,7 @@
 
 ---
 
-### Phase B2 — Database Schema Updates
+### Phase B2 — Database Schema Updates ✅
 
 **Goal:** Extend User model and create RefreshToken collection.
 
@@ -155,7 +155,7 @@
 
 ---
 
-### Phase B3 — Token Service & Cookie Helpers
+### Phase B3 — Token Service & Cookie Helpers ✅
 
 **Goal:** Centralized logic for signing JWT, hashing refresh tokens, and setting/clearing cookies.
 
@@ -181,7 +181,7 @@
 
 ---
 
-### Phase B4 — Auth Module: Register & Login
+### Phase B4 — Auth Module: Register & Login ✅
 
 **Goal:** Email/password registration and login endpoints that issue unified session tokens.
 
@@ -219,7 +219,7 @@ Cookie: refreshToken=<opaque>; HttpOnly; Secure; SameSite=Strict; Path=/auth/ref
 
 ---
 
-### Phase B5 — Auth Module: Refresh & Logout
+### Phase B5 — Auth Module: Refresh & Logout ✅
 
 **Goal:** Silent session renewal and secure logout with token revocation.
 
@@ -256,7 +256,7 @@ Cookie: refreshToken=<opaque>; HttpOnly; Secure; SameSite=Strict; Path=/auth/ref
 
 ---
 
-### Phase B6 — Firebase Sync Endpoint
+### Phase B6 — Firebase Sync Endpoint ✅
 
 **Goal:** Bridge Google login — Firebase verifies identity once, backend owns the session.
 
@@ -285,7 +285,7 @@ Cookie: refreshToken=<opaque>; HttpOnly; Secure; SameSite=Strict; Path=/auth/ref
 
 ---
 
-### Phase B7 — Dual-Verify Auth Middleware
+### Phase B7 — Dual-Verify Auth Middleware ✅
 
 **Goal:** Replace Firebase-only middleware with unified verifier that accepts custom JWT (primary) or Firebase token (fallback during migration).
 
@@ -309,7 +309,7 @@ Cookie: refreshToken=<opaque>; HttpOnly; Secure; SameSite=Strict; Path=/auth/ref
 
 ---
 
-### Phase B8 — Secure Existing Routes & Hardening
+### Phase B8 — Secure Existing Routes & Hardening ✅
 
 **Goal:** Close security gaps and protect routes that should require auth.
 
