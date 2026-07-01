@@ -2,6 +2,7 @@ import useAuth from '../../../hooks/useAuth'
 import coverImg from '../../../assets/images/cover.jpg'
 import useRole from '../../../hooks/useRole'
 import LoadingSpinner from '../../../components/Shared/LoadingSpinner'
+import avatarImg from '../../../assets/images/placeholder.jpg'
 
 const Profile = () => {
   const { user } = useAuth()
@@ -20,7 +21,7 @@ const Profile = () => {
           <a href='#' className='relative block'>
             <img
               alt='profile'
-              src={user?.photoURL}
+              src={user?.image || avatarImg}
               className='mx-auto object-cover rounded-full h-24 w-24  border-2 border-white '
             />
           </a>
@@ -28,15 +29,13 @@ const Profile = () => {
           <p className='p-2 px-4 text-xs text-white bg-primary rounded-full'>
            {role}
           </p>
-          <p className='mt-2 text-xl font-medium text-gray-800 '>
-            User Id: {user?.uid}
-          </p>
+         
           <div className='w-full p-2 mt-4 rounded-lg'>
             <div className='flex flex-wrap items-center justify-between text-sm text-gray-600 '>
               <p className='flex flex-col'>
                 Name
                 <span className='font-bold text-gray-600 '>
-                  {user?.displayName}
+                  {user?.name}
                 </span>
               </p>
               <p className='flex flex-col'>

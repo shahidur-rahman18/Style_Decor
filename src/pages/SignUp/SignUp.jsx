@@ -8,12 +8,11 @@ import { useState } from "react";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import { Eye, EyeOff } from "lucide-react";
-import { imageUpload, saveOrUpdateUser } from "../../utils";
 import LottieAnim from "../../components/Animation/LottieAnim";
 import Reveal from "../../components/Animation/Reveal";
 
 const SignUp = () => {
-  const { createUser, updateUserProfile, signInWithGoogle, loading } =
+  const { registerWithEmail, loginWithGoogle, loading } =
     useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -31,48 +30,36 @@ const SignUp = () => {
   // form submit handler
 
   const onSubmit = async (data) => {
-    const { name, email, password, image } = data;
-    const imageFile = image[0];
+    const { name, email, password } = data;
     try {
-      // this is for image upload
-
-      const imageURL = await imageUpload(imageFile);
-
-      //2. User Registration
-      const result = await createUser(email, password);
-      await saveOrUpdateUser({ name, email, image: imageURL })
-
-      //3. Save username & profile photo
-      await updateUserProfile(name, imageURL);
-      console.log(result);
-
+      await registerWithEmail(name, email, password);
       navigate(from, { replace: true });
       toast.success("Signup Successful");
     } catch (err) {
       console.log(err);
-      toast.error(err?.message);
+      const message =
+        err?.response?.data?.message || "Signup failed. Please try again.";
+      toast.error(message);
     }
   };
-  
+
 
   // Handle Google Signin
   const handleGoogleSignIn = async () => {
     try {
-      //User Registration using google
-      const { user } = await signInWithGoogle();
-      await saveOrUpdateUser({
-        name: user?.displayName,
-        email: user?.email,
-        image: user?.photoURL,
-      })
+     
+      await loginWithGoogle();
 
       navigate(from, { replace: true });
       toast.success("Signup Successful");
     } catch (err) {
       console.log(err);
-      toast.error(err?.message);
+      const message =
+        err?.response?.data?.message || "Google signup failed. Please try again.";
+      toast.error(message);
     }
   };
+  
   return (
     <div className="flex justify-center  items-center min-h-screen bg-white">
       <Reveal>
@@ -130,33 +117,7 @@ const SignUp = () => {
                   <p className="text-red-500 mt-1">{errors.name.message}</p>
                 )}
               </div>
-              {/* Image */}
-              <div>
-                <label
-                  htmlFor="image"
-                  className="block mb-2 text-sm font-medium text-gray-700"
-                >
-                  Profile Image
-                </label>
-                <input
-                  type="file"
-                  id="image"
-                  accept="image/*"
-                  className="block w-full text-sm text-gray-500
-      file:mr-4 file:py-2 file:px-4
-      file:rounded-md file:border-0
-      file:text-sm file:font-semibold
-      file:bg-lime-50 file:text-primary
-      hover:file:bg-lime-100
-      bg-gray-100 border border-dashed border-primary rounded-md cursor-pointer
-      focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary
-      py-2"
-                  {...register("image")}
-                />
-                <p className="mt-1 text-xs text-gray-400">
-                  PNG, JPG or JPEG (max 2MB)
-                </p>
-              </div>
+             
               <div>
                 <label htmlFor="email" className="block mb-2 text-sm">
                   Email address
@@ -193,7 +154,7 @@ const SignUp = () => {
                     type={showPassword ? "text" : "password"}
                     name="password"
                     autoComplete="current-password"
-                    id="password"        
+                    id="password"
                     placeholder="••••••••"
                     className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-primary bg-gray-200 text-gray-900"
                     {...register("password", {

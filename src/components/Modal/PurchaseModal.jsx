@@ -29,9 +29,9 @@ const location = useLocation();
       quantity: 1,
       seller,
       customer: {
-        name: user?.displayName,
+        name: user?.name,
         email: user?.email,
-        image: user?.photoURL,
+        image: user?.image,
       },
     }
     const { data } = await axios.post(
@@ -70,7 +70,7 @@ const location = useLocation();
               <p className='text-sm text-gray-500'>Category: {category} </p>
             </div>
             <div className='mt-2'>
-              <p className='text-sm text-gray-500'>Customer: {user?.displayName}</p>
+              <p className='text-sm text-gray-500'>Customer: {user?.name}</p>
             </div>
 
             <div className='mt-2'>

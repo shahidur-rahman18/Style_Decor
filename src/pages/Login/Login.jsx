@@ -11,10 +11,11 @@ import { Mail, Lock, Loader2, Eye, EyeOff } from "lucide-react";
 import LottieAnim from "../../components/Animation/LottieAnim";
 import Reveal from "../../components/Animation/Reveal";
 import { useForm } from "react-hook-form";
-import { saveOrUpdateUser } from "../../utils";
+
 
 const Login = () => {
-  const { signIn, signInWithGoogle, loading, user, setLoading } = useAuth();
+  const { loginWithEmail, loginWithGoogle, loading, user } = useAuth();
+
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -28,45 +29,40 @@ const Login = () => {
   } = useForm();
   console.log(errors);
 
+
+
   const onSubmit = async (data) => {
     const { email, password } = data;
 
     try {
-      //User Login
-      
-      //User Login
-      const { user } = await signIn(email, password);
-      await saveOrUpdateUser({
-        name: user?.displayName,
-        email: user?.email,
-        image: user?.photoURL,
-      });
+      await loginWithEmail(email, password);
 
       navigate(from, { replace: true });
       toast.success("Login Successful");
     } catch (err) {
       console.log(err);
-      toast.error(err?.message);
+      const message =
+        err?.response?.data?.message || "Login failed. Please try again.";
+      toast.error(message);
     }
   };
+
+
 
   // Handle Google Signin
   const handleGoogleSignIn = async () => {
     try {
       //User Registration using google
-      const { user } = await signInWithGoogle();
+      await loginWithGoogle();
 
-      await saveOrUpdateUser({
-        name: user?.displayName,
-        email: user?.email,
-        image: user?.photoURL,
-      });
+
       navigate(from, { replace: true });
       toast.success("Login Successful");
     } catch (err) {
       console.log(err);
-      setLoading(false);
-      toast.error(err?.message);
+      const message =
+        err?.response?.data?.message || "Google login failed. Please try again.";
+      toast.error(message);
     }
   };
 

@@ -60,8 +60,8 @@ const AddPlantForm = () => {
         price: Number(price),
         category,
         seller: {
-          image: user?.photoURL,
-          name: user?.displayName,
+          image: user?.image,
+          name: user?.name,
           email: user?.email,
         },
       };

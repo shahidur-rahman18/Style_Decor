@@ -2,8 +2,8 @@ import Container from "../Container";
 import { AiOutlineMenu } from "react-icons/ai";
 // eslint-disable-next-line no-unused-vars
 import { motion } from 'framer-motion';
-import {  useState } from "react";
-import { Link, useLocation } from "react-router";
+import { useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router";
 import useAuth from "../../../hooks/useAuth";
 import avatarImg from "../../../assets/images/placeholder.jpg";
 
@@ -16,12 +16,22 @@ const navLinks = [
 ];
 
 const Navbar = () => {
-  const { user, logOut } = useAuth();
-  console.log(user)
+  const { user, logout } = useAuth();
+ 
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
-  
-
+  const navigate = useNavigate();
+  const handleLogout = async () => {
+    setIsOpen(false);        // dropdown বন্ধ
+    try {
+      await logout();        // backend + state clear
+      navigate("/login", { replace: true });
+    } catch (err) {
+      console.error(err);
+      // logout এর finally-এ state ইতিমধ্যে clear হয়
+      navigate("/login", { replace: true });
+    }
+  };
   // ${isSticky ? 'fixed top-0 left-0 right-0 z-100 shadow-lg' : ''}
 
   return (
@@ -54,9 +64,8 @@ const Navbar = () => {
                 <Link
                   key={link.href}
                   to={link.href}
-                  className={`text-sm font-medium transition relative ${
-                    location.pathname === link.href ? 'text-primary' : 'text-gray-700 hover:text-black'
-                  }`}
+                  className={`text-sm font-medium transition relative ${location.pathname === link.href ? 'text-primary' : 'text-gray-700 hover:text-black'
+                    }`}
                 >
                   {link.label}
 
@@ -107,7 +116,7 @@ const Navbar = () => {
                       <img
                         className="rounded-full"
                         referrerPolicy="no-referrer"
-                        src={user.photoURL || avatarImg}
+                        src={user.image || avatarImg}
                         alt="profile"
                         height="30"
                         width="30"
@@ -150,7 +159,7 @@ const Navbar = () => {
                         </Link>
 
                         <div
-                          onClick={logOut}
+                          onClick={handleLogout}
                           className="px-4 py-3 hover:bg-neutral-100 transition font-semibold cursor-pointer"
                         >
                           Logout
